@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event'
 import { AddTaskForm } from '../components/AddTaskForm'
 
 describe('AddTaskForm', () => {
-  it('renders input, select, and submit button', () => {
+  it('renders title input, priority select, and submit button', () => {
     render(<AddTaskForm onAdd={vi.fn()} />)
     expect(screen.getByRole('textbox', { name: /태스크 제목/ })).toBeInTheDocument()
-    expect(screen.getByRole('combobox')).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: /심각도/ })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /추가/ })).toBeInTheDocument()
   })
 
@@ -15,7 +15,7 @@ describe('AddTaskForm', () => {
     const onAdd = vi.fn()
     render(<AddTaskForm onAdd={onAdd} />)
     await userEvent.type(screen.getByRole('textbox', { name: /태스크 제목/ }), '  Buy milk  ')
-    await userEvent.selectOptions(screen.getByRole('combobox'), 'critical')
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: /심각도/ }), 'critical')
     await userEvent.click(screen.getByRole('button', { name: /추가/ }))
     expect(onAdd).toHaveBeenCalledWith('Buy milk', 'critical', undefined, undefined)
   })
@@ -33,5 +33,10 @@ describe('AddTaskForm', () => {
     await userEvent.type(input, 'Task title')
     await userEvent.click(screen.getByRole('button', { name: /추가/ }))
     expect(input).toHaveValue('')
+  })
+
+  it('renders AI suggest button', () => {
+    render(<AddTaskForm onAdd={vi.fn()} />)
+    expect(screen.getByRole('button', { name: /AI 제안/ })).toBeInTheDocument()
   })
 })

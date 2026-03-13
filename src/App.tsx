@@ -3,10 +3,17 @@ import { useTasks } from './hooks/useTasks'
 import { AddTaskForm } from './components/AddTaskForm'
 import { FilterBar } from './components/FilterBar'
 import { TaskList } from './components/TaskList'
+import { SortOrder } from './types/task'
 import styles from './App.module.css'
 
+const SORT_OPTIONS: { label: string; value: SortOrder }[] = [
+  { label: "등록순", value: "default" },
+  { label: "우선순위순", value: "priority" },
+  { label: "마감일순", value: "dueDate" },
+]
+
 export default function App() {
-  const { filteredTasks, filter, setFilter, addTask, toggleTask, deleteTask, tasks } = useTasks()
+  const { filteredTasks, filter, setFilter, sort, setSort, addTask, toggleTask, deleteTask, editTask, clearCompleted, tasks } = useTasks()
 
   const stats = useMemo(() => {
     const total = tasks.length
@@ -57,8 +64,32 @@ export default function App() {
         </div>
 
         <AddTaskForm onAdd={addTask} />
-        <FilterBar filter={filter} onChange={setFilter} />
-        <TaskList tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} />
+
+        {/* 필터 + 정렬 + 완료 삭제 툴바 */}
+        <div className={styles.toolbar}>
+          <FilterBar filter={filter} onChange={setFilter} />
+          <select
+            className={styles.sortSelect}
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortOrder)}
+            aria-label="정렬 기준"
+          >
+            {SORT_OPTIONS.map(o => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          {stats.completed > 0 && (
+            <button
+              className={styles.clearBtn}
+              onClick={clearCompleted}
+              aria-label="완료된 태스크 삭제"
+            >
+              완료 삭제 ({stats.completed})
+            </button>
+          )}
+        </div>
+
+        <TaskList tasks={filteredTasks} onToggle={toggleTask} onDelete={deleteTask} onEdit={editTask} />
       </div>
     </div>
   )
