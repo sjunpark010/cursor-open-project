@@ -664,25 +664,72 @@ function save(type) { localStorage.setItem(KEYS[type], JSON.stringify(data[type]
 function loadSample() {
   areas = ['기능','비기능','보안','UI/UX','API'];
   data.req = [
-    {id:'FR-001',area:'기능',title:'로그인 기능',desc:'사용자 로그인 처리',priority:'상',status:'확정',comments:[],images:[]},
-    {id:'FR-002',area:'기능',title:'회원가입 기능',desc:'신규 사용자 등록',priority:'상',status:'확정',comments:[],images:[]},
-    {id:'FR-003',area:'보안',title:'비밀번호 정책',desc:'8자 이상, 특수문자 포함',priority:'중',status:'검토중',comments:[],images:[]},
-    {id:'FR-004',area:'UI/UX',title:'반응형 레이아웃',desc:'모바일/PC 지원',priority:'하',status:'보류',comments:[],images:[]},
-    {id:'FR-005',area:'API',title:'데이터 전송 API',desc:'REST API 설계',priority:'상',status:'확정',comments:[],images:[]},
+    {id:'FR-001',area:'기능',title:'사용자 로그인',desc:'이메일/비밀번호 기반 로그인. 의료진·관리자 역할 구분, SSO 지원.',priority:'상',status:'확정',comments:[{author:'이기획',text:'SSO는 3분기 이후 적용 예정 확인',time:'2026-02-10 10:15'}],images:[]},
+    {id:'FR-002',area:'기능',title:'회원가입 및 계정 관리',desc:'신규 의료진 계정 등록, 이메일 인증, 프로필 수정 포함.',priority:'상',status:'확정',comments:[],images:[]},
+    {id:'FR-003',area:'보안',title:'비밀번호 보안 정책',desc:'8자 이상, 대소문자·숫자·특수문자 혼합. 90일 주기 변경 권고.',priority:'중',status:'검토중',comments:[{author:'박보안',text:'HIPAA 기준으로 90일 → 60일 검토 요청',time:'2026-02-18 15:40'}],images:[]},
+    {id:'FR-004',area:'UI/UX',title:'반응형 대시보드',desc:'태블릿·PC 지원. 주요 KPI 카드, TC/결함 현황 차트 포함.',priority:'하',status:'보류',comments:[],images:[]},
+    {id:'FR-005',area:'API',title:'외부 연동 REST API',desc:'검사 결과 조회·등록 API. OAuth2 인증, 요청당 1,000ms 이하 응답.',priority:'상',status:'확정',comments:[],images:[]},
+    {id:'FR-006',area:'기능',title:'AI 진단 보조 기능',desc:'GC MediAI 엔진 연동. 영상·수치 데이터 분석 결과를 화면에 표시.',priority:'상',status:'확정',comments:[{author:'김AI',text:'모델 v2.3 기준 정확도 94.1% 확인',time:'2026-02-25 09:30'},{author:'이QA',text:'엣지 케이스 추가 검증 필요',time:'2026-02-26 11:00'}],images:[]},
+    {id:'FR-007',area:'기능',title:'환자 데이터 조회',desc:'등록번호 기반 환자 정보·검사 이력·진단 기록 조회.',priority:'상',status:'확정',comments:[],images:[]},
+    {id:'FR-008',area:'기능',title:'의료 영상 뷰어',desc:'DICOM 포맷 지원. 확대·축소, 밝기/대비 조절, 레이어 표시.',priority:'상',status:'검토중',comments:[{author:'박기획',text:'DICOM 파서 라이센스 확인 중',time:'2026-03-01 14:00'}],images:[]},
+    {id:'FR-009',area:'보안',title:'역할 기반 권한 관리',desc:'의사·간호사·관리자·QA 역할별 메뉴·데이터 접근 제어.',priority:'상',status:'확정',comments:[],images:[]},
+    {id:'FR-010',area:'기능',title:'검사 결과 리포트 출력',desc:'PDF 출력. 환자 정보·AI 분석 결과·의사 소견 포함.',priority:'중',status:'확정',comments:[],images:[]},
+    {id:'FR-011',area:'기능',title:'알림 및 공지 기능',desc:'비정상 수치 알림, 시스템 공지 팝업, 이메일 발송.',priority:'중',status:'검토중',comments:[],images:[]},
+    {id:'FR-012',area:'UI/UX',title:'다국어 지원(한/영)',desc:'UI 전체 한국어·영어 전환 지원.',priority:'하',status:'보류',comments:[],images:[]},
+    {id:'FR-013',area:'보안',title:'세션 및 토큰 관리',desc:'JWT 기반 인증. 30분 비활동 시 자동 로그아웃, Refresh Token 갱신.',priority:'상',status:'확정',comments:[],images:[]},
+    {id:'FR-014',area:'API',title:'데이터 내보내기 API',desc:'검사 결과·로그 CSV/Excel 다운로드. 조회 조건 필터 지원.',priority:'중',status:'검토중',comments:[],images:[]},
+    {id:'FR-015',area:'비기능',title:'감사 로그 기록',desc:'모든 데이터 조회·수정 이벤트 저장. 90일 보관, 관리자 조회 가능.',priority:'중',status:'확정',comments:[],images:[]},
   ];
   data.tc = [
-    {id:'TC-001',reqId:'FR-001',year:'2026',area:'기능',title:'정상 로그인',pre:'계정이 존재함',steps:'1. ID/PW 입력\n2. 로그인 클릭',expected:'메인 화면으로 이동',type:'정상',priority:'높음',status:'통과',assignee:'김QA',date:'2026-03-10',desc:'',comments:[],images:[]},
-    {id:'TC-002',reqId:'FR-001',year:'2026',area:'기능',title:'틀린 비밀번호 로그인',pre:'',steps:'1. 틀린 PW 입력\n2. 로그인 클릭',expected:'오류 메시지 표시',type:'비정상',priority:'높음',status:'통과',assignee:'김QA',date:'2026-03-10',desc:'',comments:[],images:[]},
-    {id:'TC-003',reqId:'FR-001',year:'2026',area:'기능',title:'5회 실패 계정 잠금',pre:'정상 계정 존재',steps:'1. 틀린 PW 5회 입력',expected:'계정 잠금 처리',type:'경계값',priority:'높음',status:'실패',assignee:'이QA',date:'2026-03-11',desc:'',comments:[{author:'이QA',text:'잠금 안됨 확인',time:'2026-03-11 14:30'}],images:[]},
-    {id:'TC-004',reqId:'FR-002',year:'2026',area:'기능',title:'정상 회원가입',pre:'미등록 이메일',steps:'1. 정보 입력\n2. 가입 버튼 클릭',expected:'완료 메시지 표시',type:'정상',priority:'높음',status:'미수행',assignee:'박QA',date:'',desc:'',comments:[],images:[]},
-    {id:'TC-005',reqId:'FR-003',year:'2026',area:'보안',title:'비밀번호 7자 가입 시도',pre:'',steps:'1. 7자 PW 입력 후 가입 시도',expected:'오류 메시지 표시',type:'경계값',priority:'중간',status:'미수행',assignee:'',date:'',desc:'',comments:[],images:[]},
-    {id:'TC-006',reqId:'FR-005',year:'2026',area:'API',title:'API 인증 없이 호출',pre:'',steps:'1. 토큰 없이 API 호출',expected:'401 응답 반환',type:'보안',priority:'높음',status:'블로킹',assignee:'이QA',date:'2026-03-11',desc:'',comments:[],images:[]},
+    /* FR-001 로그인 */
+    {id:'TC-001',reqId:'FR-001',year:'2026',area:'기능',title:'정상 이메일/PW 로그인',pre:'유효한 계정 존재',steps:'1. 이메일 입력\n2. 비밀번호 입력\n3. 로그인 버튼 클릭',expected:'메인 대시보드로 이동하고 사용자 이름 표시',type:'정상',priority:'높음',status:'통과',assignee:'김QA',date:'2026-03-05',desc:'',comments:[],images:[]},
+    {id:'TC-002',reqId:'FR-001',year:'2026',area:'기능',title:'존재하지 않는 이메일 로그인',pre:'',steps:'1. 미등록 이메일 입력\n2. 비밀번호 입력\n3. 로그인 버튼 클릭',expected:'"이메일 또는 비밀번호가 올바르지 않습니다." 오류 표시',type:'비정상',priority:'높음',status:'통과',assignee:'김QA',date:'2026-03-05',desc:'',comments:[],images:[]},
+    {id:'TC-003',reqId:'FR-001',year:'2026',area:'기능',title:'5회 연속 로그인 실패 계정 잠금',pre:'유효한 계정 존재',steps:'1. 틀린 비밀번호로 5회 로그인 시도\n2. 6번째 시도',expected:'계정 잠금 처리 및 잠금 안내 메시지 표시',type:'경계값',priority:'높음',status:'실패',assignee:'이QA',date:'2026-03-06',desc:'',comments:[{author:'이QA',text:'5회 초과 후에도 잠금 처리 안됨 재현 확인',time:'2026-03-06 14:22'},{author:'개발팀A',text:'인증 미들웨어 버그 확인, 핫픽스 예정',time:'2026-03-07 09:00'}],images:[]},
+    {id:'TC-004',reqId:'FR-001',year:'2026',area:'기능',title:'비밀번호 입력 마스킹 확인',pre:'',steps:'1. 비밀번호 입력란에 텍스트 입력',expected:'입력 문자가 • 으로 마스킹 처리됨',type:'정상',priority:'중간',status:'통과',assignee:'박QA',date:'2026-03-05',desc:'',comments:[],images:[]},
+    {id:'TC-005',reqId:'FR-001',year:'2026',area:'기능',title:'세션 만료 후 재로그인 요구',pre:'로그인 상태',steps:'1. 30분 비활동 대기\n2. 화면 조작 시도',expected:'세션 만료 알림 후 로그인 화면으로 이동',type:'정상',priority:'높음',status:'통과',assignee:'이QA',date:'2026-03-07',desc:'',comments:[],images:[]},
+    /* FR-002 회원가입 */
+    {id:'TC-006',reqId:'FR-002',year:'2026',area:'기능',title:'정상 신규 계정 등록',pre:'미등록 이메일',steps:'1. 회원가입 폼 접근\n2. 이름·이메일·비밀번호 입력\n3. 가입 버튼 클릭\n4. 인증 메일 확인',expected:'계정 생성 완료 메시지, 인증 이메일 수신',type:'정상',priority:'높음',status:'통과',assignee:'박QA',date:'2026-03-08',desc:'',comments:[],images:[]},
+    {id:'TC-007',reqId:'FR-002',year:'2026',area:'기능',title:'중복 이메일 가입 차단',pre:'기등록 이메일 존재',steps:'1. 기존 계정과 동일한 이메일 입력\n2. 가입 시도',expected:'"이미 사용 중인 이메일입니다." 오류 표시',type:'비정상',priority:'높음',status:'통과',assignee:'박QA',date:'2026-03-08',desc:'',comments:[],images:[]},
+    {id:'TC-008',reqId:'FR-002',year:'2026',area:'기능',title:'이메일 인증 미완료 로그인 차단',pre:'인증 미완료 계정',steps:'1. 인증 미완료 계정으로 로그인 시도',expected:'"이메일 인증이 필요합니다." 안내 표시',type:'비정상',priority:'중간',status:'미수행',assignee:'김QA',date:'',desc:'',comments:[],images:[]},
+    /* FR-003 비밀번호 정책 */
+    {id:'TC-009',reqId:'FR-003',year:'2026',area:'보안',title:'7자 비밀번호 가입 차단',pre:'',steps:'1. 비밀번호 7자 입력 후 가입 시도',expected:'"비밀번호는 8자 이상이어야 합니다." 오류 표시',type:'경계값',priority:'중간',status:'통과',assignee:'이QA',date:'2026-03-09',desc:'',comments:[],images:[]},
+    {id:'TC-010',reqId:'FR-003',year:'2026',area:'보안',title:'특수문자 없는 비밀번호 차단',pre:'',steps:'1. 영문+숫자만으로 구성된 비밀번호 입력\n2. 가입 시도',expected:'"특수문자를 포함해야 합니다." 오류 표시',type:'비정상',priority:'중간',status:'실패',assignee:'이QA',date:'2026-03-09',desc:'',comments:[{author:'이QA',text:'특수문자 없이도 가입 처리됨 — 정책 미적용',time:'2026-03-09 16:05'}],images:[]},
+    /* FR-005 API */
+    {id:'TC-011',reqId:'FR-005',year:'2026',area:'API',title:'인증 없이 API 호출 차단',pre:'',steps:'1. Authorization 헤더 없이 GET /api/results 호출',expected:'HTTP 401 Unauthorized 응답',type:'보안',priority:'높음',status:'통과',assignee:'최API',date:'2026-03-10',desc:'',comments:[],images:[]},
+    {id:'TC-012',reqId:'FR-005',year:'2026',area:'API',title:'만료 토큰으로 API 호출',pre:'만료된 JWT 토큰 보유',steps:'1. 만료 토큰으로 GET /api/results 호출',expected:'HTTP 401 응답 및 "Token expired" 메시지',type:'비정상',priority:'높음',status:'실패',assignee:'최API',date:'2026-03-10',desc:'',comments:[{author:'최API',text:'500 Internal Error 응답됨 — 예외처리 누락',time:'2026-03-10 11:30'}],images:[]},
+    {id:'TC-013',reqId:'FR-005',year:'2026',area:'API',title:'API 응답 시간 1,000ms 이하',pre:'정상 인증 토큰',steps:'1. GET /api/results?patientId=P001 10회 호출\n2. 평균 응답 시간 측정',expected:'평균 응답 시간 1,000ms 이하',type:'비정상',priority:'중간',status:'통과',assignee:'최API',date:'2026-03-11',desc:'',comments:[],images:[]},
+    /* FR-006 AI 진단 */
+    {id:'TC-014',reqId:'FR-006',year:'2026',area:'기능',title:'AI 분석 결과 정상 표시',pre:'환자 영상 데이터 존재',steps:'1. 영상 데이터 선택\n2. AI 분석 버튼 클릭\n3. 결과 화면 확인',expected:'분석 완료 후 AI 신뢰도·진단 요약 표시',type:'정상',priority:'높음',status:'통과',assignee:'김AI',date:'2026-03-08',desc:'',comments:[],images:[]},
+    {id:'TC-015',reqId:'FR-006',year:'2026',area:'기능',title:'AI 분석 중 네트워크 오류 처리',pre:'',steps:'1. 분석 요청 중 네트워크 차단\n2. 오류 응답 확인',expected:'"분석에 실패했습니다. 다시 시도해주세요." 표시',type:'비정상',priority:'높음',status:'블로킹',assignee:'김AI',date:'2026-03-10',desc:'',comments:[{author:'김AI',text:'오류 화면 공백 처리 — fallback UI 없음',time:'2026-03-10 15:00'}],images:[]},
+    {id:'TC-016',reqId:'FR-006',year:'2026',area:'기능',title:'데이터 없는 환자 AI 분석 시도',pre:'분석 데이터 없는 환자',steps:'1. 데이터 없는 환자 선택\n2. AI 분석 버튼 클릭',expected:'"분석 가능한 데이터가 없습니다." 안내 표시',type:'비정상',priority:'중간',status:'통과',assignee:'박QA',date:'2026-03-11',desc:'',comments:[],images:[]},
+    /* FR-007 환자 데이터 */
+    {id:'TC-017',reqId:'FR-007',year:'2026',area:'기능',title:'등록번호로 환자 조회',pre:'환자 데이터 등록됨',steps:'1. 환자 등록번호 입력\n2. 조회 버튼 클릭',expected:'환자 기본 정보·검사 이력 목록 표시',type:'정상',priority:'높음',status:'통과',assignee:'김QA',date:'2026-03-07',desc:'',comments:[],images:[]},
+    {id:'TC-018',reqId:'FR-007',year:'2026',area:'기능',title:'존재하지 않는 환자 조회',pre:'',steps:'1. 미등록 환자 번호 입력\n2. 조회',expected:'"검색 결과가 없습니다." 메시지 표시',type:'비정상',priority:'중간',status:'통과',assignee:'김QA',date:'2026-03-07',desc:'',comments:[],images:[]},
+    /* FR-008 의료 영상 뷰어 */
+    {id:'TC-019',reqId:'FR-008',year:'2026',area:'기능',title:'DICOM 파일 뷰어 로드',pre:'DICOM 파일 업로드됨',steps:'1. 영상 목록에서 DICOM 파일 선택\n2. 뷰어 로드 확인',expected:'영상이 뷰어에 정상 렌더링됨',type:'정상',priority:'높음',status:'미수행',assignee:'박QA',date:'',desc:'',comments:[],images:[]},
+    {id:'TC-020',reqId:'FR-008',year:'2026',area:'기능',title:'영상 확대/축소 기능',pre:'영상 뷰어 열린 상태',steps:'1. 마우스 휠 위아래 조작\n2. 확대/축소 버튼 클릭',expected:'영상 확대·축소 정상 동작, 배율 표시',type:'정상',priority:'중간',status:'미수행',assignee:'박QA',date:'',desc:'',comments:[],images:[]},
+    /* FR-009 권한 관리 */
+    {id:'TC-021',reqId:'FR-009',year:'2026',area:'보안',title:'간호사 역할 관리자 메뉴 접근 차단',pre:'간호사 계정 로그인',steps:'1. 간호사 계정으로 로그인\n2. 관리자 전용 메뉴 URL 직접 접근',expected:'접근 차단 및 "권한이 없습니다." 표시',type:'보안',priority:'높음',status:'통과',assignee:'이QA',date:'2026-03-09',desc:'',comments:[],images:[]},
+    {id:'TC-022',reqId:'FR-009',year:'2026',area:'보안',title:'관리자 역할 전체 메뉴 접근',pre:'관리자 계정 로그인',steps:'1. 관리자 계정으로 로그인\n2. 모든 메뉴 항목 접근 확인',expected:'모든 메뉴·기능 정상 접근 가능',type:'정상',priority:'높음',status:'통과',assignee:'이QA',date:'2026-03-09',desc:'',comments:[],images:[]},
+    /* FR-010 리포트 출력 */
+    {id:'TC-023',reqId:'FR-010',year:'2026',area:'기능',title:'PDF 리포트 정상 생성',pre:'검사 결과 및 AI 분석 완료',steps:'1. 검사 결과 상세 화면 진입\n2. PDF 출력 버튼 클릭',expected:'PDF 파일 생성 및 다운로드 시작',type:'정상',priority:'중간',status:'통과',assignee:'박QA',date:'2026-03-11',desc:'',comments:[],images:[]},
+    /* FR-013 세션 관리 */
+    {id:'TC-024',reqId:'FR-013',year:'2026',area:'보안',title:'Refresh Token 자동 갱신',pre:'액세스 토큰 만료 임박',steps:'1. 액세스 토큰 만료 5분 전 상태에서 API 호출',expected:'Refresh Token으로 자동 갱신 후 정상 응답',type:'정상',priority:'높음',status:'통과',assignee:'최API',date:'2026-03-10',desc:'',comments:[],images:[]},
+    /* FR-015 감사 로그 */
+    {id:'TC-025',reqId:'FR-015',year:'2026',area:'비기능',title:'환자 데이터 조회 감사 로그 기록',pre:'감사 로그 활성화',steps:'1. 의사 계정으로 환자 데이터 조회\n2. 관리자 페이지 > 감사 로그 확인',expected:'조회 이벤트(사용자·일시·대상) 로그 기록됨',type:'정상',priority:'중간',status:'통과',assignee:'이QA',date:'2026-03-12',desc:'',comments:[],images:[]},
   ];
   tcYears = ['2026']; saveTcYears();
   data.def = [
-    {id:'BUG-001',tcId:'TC-003',area:'기능',title:'5회 실패 후 계정 잠금 안됨',desc:'[재현] 틀린 PW 5회 입력\n[기대] 계정 잠금\n[실제] 계속 로그인 시도 가능',sev:'높음',status:'신규',assignee:'개발팀A',date:'2026-03-11',reporter:'이QA',comments:[],images:[]},
-    {id:'BUG-002',tcId:'TC-006',area:'API',title:'API 토큰 만료 후 500 오류',desc:'[재현] 만료 토큰으로 API 호출\n[기대] 401\n[실제] 500 Internal Error',sev:'높음',status:'진행중',assignee:'개발팀B',date:'2026-03-11',reporter:'김QA',comments:[],images:[]},
-    {id:'BUG-003',tcId:'TC-001',area:'UI/UX',title:'로그인 버튼 모바일 짤림',desc:'[재현] 모바일 화면\n[기대] 버튼 전체 표시\n[실제] 오른쪽 잘림',sev:'낮음',status:'보류',assignee:'',date:'2026-03-10',reporter:'박QA',comments:[],images:[]},
+    {id:'BUG-001',tcId:'TC-003',area:'기능',title:'5회 로그인 실패 후 계정 잠금 미처리',desc:'[재현 절차] 동일 계정으로 틀린 비밀번호 5회 입력\n[기대 결과] 계정 잠금 및 안내 메시지 표시\n[실제 결과] 잠금 처리 없이 계속 로그인 시도 가능\n[환경] Chrome 123, API v2.1',sev:'높음',status:'신규',assignee:'개발팀A',date:'2026-03-06',reporter:'이QA',comments:[{author:'이QA',text:'3회·4회·5회 모두 재현됨',time:'2026-03-06 14:22'},{author:'개발팀A',text:'인증 미들웨어 rate-limit 로직 누락 확인',time:'2026-03-07 09:15'}],images:[]},
+    {id:'BUG-002',tcId:'TC-012',area:'API',title:'만료 토큰 호출 시 500 오류 반환',desc:'[재현 절차] 만료된 JWT로 GET /api/results 호출\n[기대 결과] HTTP 401 + "Token expired"\n[실제 결과] HTTP 500 Internal Server Error\n[환경] Postman, API v2.1',sev:'높음',status:'진행중',assignee:'개발팀B',date:'2026-03-10',reporter:'최API',comments:[{author:'최API',text:'토큰 파서 예외처리 전무',time:'2026-03-10 11:30'},{author:'개발팀B',text:'try-catch 추가 후 PR 올릴 예정',time:'2026-03-11 10:00'}],images:[]},
+    {id:'BUG-003',tcId:'TC-010',area:'보안',title:'특수문자 없는 비밀번호 가입 허용',desc:'[재현 절차] 숫자+영문만 8자로 가입 시도\n[기대 결과] 특수문자 포함 요구 오류\n[실제 결과] 가입 정상 처리됨\n[환경] Firefox 124, 회원가입 v1.4',sev:'높음',status:'신규',assignee:'개발팀A',date:'2026-03-09',reporter:'이QA',comments:[],images:[]},
+    {id:'BUG-004',tcId:'TC-015',area:'기능',title:'AI 분석 오류 시 빈 화면 표시',desc:'[재현 절차] 분석 요청 중 네트워크 차단\n[기대 결과] 오류 메시지 및 재시도 버튼 표시\n[실제 결과] 화면 전체 공백 — fallback UI 없음\n[환경] Chrome 123, AI 엔진 v2.3',sev:'높음',status:'진행중',assignee:'개발팀C',date:'2026-03-10',reporter:'김AI',comments:[{author:'개발팀C',text:'Error Boundary 추가 작업 착수',time:'2026-03-11 14:00'}],images:[]},
+    {id:'BUG-005',tcId:'TC-001',area:'UI/UX',title:'로그인 버튼 모바일(375px) 우측 잘림',desc:'[재현 절차] Chrome 모바일 375px 화면에서 로그인 페이지 접근\n[기대 결과] 버튼 전체 표시\n[실제 결과] 버튼 오른쪽 10px 잘림\n[환경] iPhone SE 해상도 기준',sev:'낮음',status:'보류',assignee:'',date:'2026-03-05',reporter:'박QA',comments:[],images:[]},
+    {id:'BUG-006',tcId:'TC-017',area:'기능',title:'환자 조회 목록 100건 이상 페이지네이션 오류',desc:'[재현 절차] 검사 이력 101건 이상인 환자 조회\n[기대 결과] 페이지 이동 정상 작동\n[실제 결과] 2페이지로 이동 시 1페이지 데이터 재표시\n[환경] Safari 17',sev:'중간',status:'신규',assignee:'개발팀B',date:'2026-03-07',reporter:'김QA',comments:[],images:[]},
+    {id:'BUG-007',tcId:'TC-023',area:'기능',title:'PDF 리포트 한글 폰트 깨짐',desc:'[재현 절차] PDF 출력 후 파일 열기\n[기대 결과] 한글 정상 표시\n[실제 결과] 일부 한글 문자 □ 로 표시\n[환경] Adobe Reader, macOS 14',sev:'중간',status:'해결됨',assignee:'개발팀C',date:'2026-03-11',reporter:'박QA',comments:[{author:'개발팀C',text:'나눔고딕 폰트 임베드로 해결',time:'2026-03-12 16:30'}],images:[]},
+    {id:'BUG-008',tcId:'TC-021',area:'보안',title:'간호사 역할 URL 직접 접근 시 403 미반환',desc:'[재현 절차] 간호사 계정으로 /admin/users 직접 접근\n[기대 결과] HTTP 403 및 접근 차단 UI\n[실제 결과] 빈 페이지 응답 (상태코드 200)\n[환경] API 게이트웨이 v1.8',sev:'높음',status:'신규',assignee:'개발팀A',date:'2026-03-09',reporter:'이QA',comments:[],images:[]},
+    {id:'BUG-009',tcId:'TC-005',area:'기능',title:'세션 만료 후 로그인 화면 이동 지연',desc:'[재현 절차] 30분 비활동 후 화면 클릭\n[기대 결과] 즉시 로그인 화면 이동\n[실제 결과] 3~5초 지연 후 이동\n[환경] Edge 123',sev:'낮음',status:'진행중',assignee:'개발팀B',date:'2026-03-07',reporter:'이QA',comments:[],images:[]},
+    {id:'BUG-010',tcId:'TC-014',area:'기능',title:'AI 분석 결과 신뢰도 소수점 표기 오류',desc:'[재현 절차] AI 분석 실행 후 신뢰도 수치 확인\n[기대 결과] 소수점 1자리 표시 (예: 94.1%)\n[실제 결과] 소수점 8자리 표시 (예: 94.10000001%)\n[환경] Chrome 123',sev:'낮음',status:'해결됨',assignee:'개발팀C',date:'2026-03-08',reporter:'김AI',comments:[{author:'개발팀C',text:'toFixed(1) 적용으로 해결',time:'2026-03-09 11:00'}],images:[]},
   ];
   ['req','tc','def'].forEach(t => save(t));
   localStorage.setItem(KEYS.areas, JSON.stringify(areas));
