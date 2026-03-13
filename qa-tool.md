@@ -255,21 +255,21 @@ tr:last-child td{border-bottom:none}
     </div>
   </div>
   <div class="sb-sec">Overview</div>
-  <div class="sb-item active" onclick="nav('dash')" id="n-dash">대시보드</div>
+  <div class="sb-item active" onclick="nav('dash')" id="n-dash">Dashboard</div>
   <div class="sb-sec">요구사항</div>
-  <div class="sb-item" onclick="nav('req')" id="n-req">요구사항 관리</div>
-  <div class="sb-item" onclick="nav('ai-req')" id="n-ai-req">AI 요구사항 분석</div>
+  <div class="sb-item" onclick="nav('req')" id="n-req">Requirements</div>
+  <div class="sb-item" onclick="nav('ai-req')" id="n-ai-req">AI Requirements Analysis</div>
   <div class="sb-sec">테스트케이스</div>
   <div class="sb-item" onclick="nav('tc')" id="n-tc">Test Case</div>
   <div class="sb-item" onclick="nav('smart-tc')" id="n-smart-tc">Smart TC Generator</div>
 
   <div class="sb-sec">결함</div>
-  <div class="sb-item" onclick="nav('def')" id="n-def">결함 목록</div>
-  <div class="sb-item" onclick="nav('def-stat')" id="n-def-stat">결함 통계</div>
+  <div class="sb-item" onclick="nav('def')" id="n-def">Defect List</div>
+  <div class="sb-item" onclick="nav('def-stat')" id="n-def-stat">Defect Statistics</div>
   <div class="sb-sec">추적성</div>
   <div class="sb-item" onclick="nav('rtm')" id="n-rtm">RTM</div>
   <div class="sb-sec">설정</div>
-  <div class="sb-item" onclick="nav('cfg')" id="n-cfg">환경 설정</div>
+  <div class="sb-item" onclick="nav('cfg')" id="n-cfg">Settings</div>
   <div class="sb-bottom"><span>v2.0 · 로컬 저장</span></div>
 </div>
 
@@ -745,7 +745,7 @@ function populateAreaSelects() {
   });
 }
 
-const pageMap = {dash:'📊 대시보드', req:'📋 요구사항 관리', 'ai-req':'🤖 AI 요구사항 분석', tc:'📝 Test Case', 'smart-tc':'✨ Smart TC Generator', def:'🐛 결함 목록', 'def-stat':'📊 결함 통계', rtm:'🔗 RTM', cfg:'⚙️ 환경 설정'};
+const pageMap = {dash:'📊 Dashboard', req:'📋 Requirements', 'ai-req':'🤖 AI Requirements Analysis', tc:'📝 Test Case', 'smart-tc':'✨ Smart TC Generator', def:'🐛 Defect List', 'def-stat':'📊 Defect Statistics', rtm:'🔗 RTM', cfg:'⚙️ Settings'};
 const pageCnt = {req:()=>`${data.req.length}건`, tc:()=>`${data.tc.length}건`, def:()=>`${data.def.length}건`};
 
 let selectedReqId = null;
