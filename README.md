@@ -1,83 +1,68 @@
 # React Task Manager
 
-![CI](https://github.com/sjunpark010/cursor-open-project/actions/workflows/ci.yml/badge.svg)
+우선순위 기반 할 일 관리 앱 — React + TypeScript + Vite
 
-A priority-based task management app built with React and TypeScript, featuring task filtering and local persistence via localStorage.
+---
 
-**Live Demo:** https://sjunpark010.github.io/cursor-open-project/
+## 주요 기능
 
-## Features
+- 할 일 추가 (제목 + 우선순위: 낮음 / 보통 / 높음)
+- 상태별 필터링: 전체 / 진행 중 / 완료
+- localStorage 자동 저장 — 새로고침 후에도 유지
+- 애니메이션 그라데이션 + 글래스모피즘 UI
+- hooks 및 컴포넌트 단위 테스트 포함
 
-- Add tasks with a title and priority level (low / medium / high)
-- Filter tasks by status: All, Active, or Completed
-- Tasks are persisted in localStorage — they survive page refreshes
-- Responsive glassmorphism UI with animated gradient background
-- Full unit test coverage for hooks and components
+## 기술 스택
 
-## Tech Stack
-
-| Technology | Purpose |
+| 기술 | 역할 |
 |---|---|
-| React 18 | UI library |
-| TypeScript | Type safety |
-| Vite | Build tool and dev server |
-| CSS Modules | Scoped component styles |
-| Vitest | Unit test runner |
-| @testing-library/react | Component testing utilities |
-| GitHub Actions | CI pipeline and deployment |
+| React 18 | UI 라이브러리 |
+| TypeScript | 타입 안전성 |
+| Vite | 빌드 도구 및 개발 서버 |
+| CSS Modules | 컴포넌트 스코프 스타일 |
+| Vitest | 단위 테스트 실행기 |
+| @testing-library/react | 컴포넌트 테스트 유틸 |
 
-## Getting Started
+## 시작하기
 
 ```bash
-# Install dependencies
+# 패키지 설치
 npm install
 
-# Start development server
+# 개발 서버 실행
 npm run dev
 
-# Run tests (watch mode)
+# 테스트 실행 (감시 모드)
 npm test
 
-# Run tests once
+# 테스트 1회 실행
 npm run test:run
 
-# Generate coverage report
+# 커버리지 리포트 생성
 npm run coverage
 
-# Build for production
+# 프로덕션 빌드
 npm run build
 ```
 
-## Project Structure
+## 프로젝트 구조
 
 ```
 src/
   components/
-    AddTaskForm.tsx     # Form: title input + priority select + submit
-    FilterBar.tsx       # Navigation: All / Active / Completed
-    TaskItem.tsx        # Single task row: checkbox, title, badge, delete
-    TaskList.tsx        # Renders a list of TaskItem components
+    AddTaskForm.tsx     # 폼: 제목 입력 + 우선순위 선택 + 제출
+    FilterBar.tsx       # 필터 네비게이션: 전체 / 진행 중 / 완료
+    TaskItem.tsx        # 단일 할 일: 체크박스, 제목, 뱃지, 삭제 버튼
+    TaskList.tsx        # TaskItem 목록 렌더링
   hooks/
-    useTasks.ts         # Main state hook: useReducer + localStorage sync
-    useLocalStorage.ts  # Generic localStorage hook
+    useTasks.ts         # 메인 상태 훅: useReducer + localStorage 동기화
+    useLocalStorage.ts  # 범용 localStorage 훅
   types/
-    task.ts             # Task, Priority, FilterStatus type definitions
-  __tests__/            # Vitest unit tests for hooks and components
-  test/
-    setup.ts            # @testing-library/jest-dom global setup
-  App.tsx               # Root component — wires everything together
+    task.ts             # Task, Priority, FilterStatus 타입 정의
+  __tests__/            # hooks 및 컴포넌트 단위 테스트
+  App.tsx               # 루트 컴포넌트
 ```
 
-## CI/CD
-
-Every push to `master` or `main`:
-1. Installs dependencies with `npm ci`
-2. Runs the full test suite with `npm run test:run`
-3. Builds the project with `npm run build`
-4. Deploys the `dist/` folder to GitHub Pages automatically
-
-Pull requests trigger the test + build steps but do not deploy.
-
-## License
+## 라이선스
 
 MIT
