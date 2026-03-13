@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA 테스트케이스 관리 도구</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; color: #24292e; background: #f6f8fa; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+    h1 { font-size: 28px; border-bottom: 2px solid #e1e4e8; padding-bottom: 12px; margin-bottom: 6px; }
+    .subtitle { color: #586069; margin-bottom: 32px; font-size: 13px; }
+    h2 { font-size: 20px; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #e1e4e8; }
+    h3 { font-size: 15px; margin: 24px 0 10px; color: #444d56; }
+    hr { border: none; border-top: 1px solid #e1e4e8; margin: 32px 0; }
+
+    /* TOC */
+    .toc { background: #fff; border: 1px solid #e1e4e8; border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+    .toc h2 { margin-top: 0; font-size: 16px; border-bottom: none; }
+    .toc ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 12px; }
+    .toc a { color: #0366d6; text-decoration: none; font-size: 13px; }
+    .toc a:hover { text-decoration: underline; }
+
+    /* Cards */
+    .card { background: #fff; border: 1px solid #e1e4e8; border-radius: 8px; padding: 20px 24px; margin-bottom: 24px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+    th { background: #f1f3f5; text-align: left; padding: 8px 12px; border: 1px solid #d0d7de; font-weight: 600; color: #444d56; }
+    td { padding: 7px 12px; border: 1px solid #e1e4e8; vertical-align: middle; }
+    tr:nth-child(even) td { background: #fafbfc; }
+    tr:hover td { background: #f0f7ff; }
+
+    /* Stat summary */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .stat-box { background: #fff; border: 1px solid #e1e4e8; border-radius: 8px; padding: 16px; text-align: center; }
+    .stat-box .num { font-size: 28px; font-weight: 700; color: #0366d6; }
+    .stat-box .label { font-size: 12px; color: #586069; margin-top: 4px; }
+
+    /* Badges */
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .badge-pass { background: #dcffe4; color: #22863a; }
+    .badge-fail { background: #ffdce0; color: #cb2431; }
+    .badge-skip { background: #fff5b1; color: #b08800; }
+    .badge-high { background: #ffdce0; color: #cb2431; }
+    .badge-mid  { background: #fff5b1; color: #b08800; }
+    .badge-low  { background: #dcffe4; color: #22863a; }
+    .badge-new  { background: #dbeafe; color: #1d4ed8; }
+    .badge-wip  { background: #fef3c7; color: #b45309; }
+    .badge-fixed { background: #dcffe4; color: #22863a; }
+    .badge-closed { background: #f1f3f5; color: #586069; }
+
+    .warn { color: #e36209; font-weight: 600; }
+    blockquote { background: #f6f8fa; border-left: 4px solid #0366d6; padding: 10px 16px; border-radius: 0 6px 6px 0; margin-bottom: 16px; font-size: 13px; color: #444d56; }
+    .legend { font-size: 12px; color: #586069; margin-top: 8px; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>QA 테스트케이스 관리 도구</h1>
+  <p class="subtitle">프로젝트명: Sample Web Application &nbsp;|&nbsp; 버전: v1.0.0 &nbsp;|&nbsp; 최종 업데이트: 2026-03-13</p>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h2>목차</h2>
+    <ul>
+      <li><a href="#dashboard">📊 대시보드 요약</a></li>
+      <li><a href="#requirements">📋 요구사항 목록</a></li>
+      <li><a href="#suites">📁 테스트 스위트 목록</a></li>
+      <li><a href="#tc-list">📝 TC 목록</a></li>
+      <li><a href="#manual-run">▶️ 수동 수행 기록</a></li>
+      <li><a href="#history">📜 수행 이력</a></li>
+      <li><a href="#defects">🐛 결함 목록</a></li>
+      <li><a href="#rtm">🔗 RTM</a></li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 대시보드 -->
+  <h2 id="dashboard">📊 대시보드 요약</h2>
+  <div class="card">
+    <h3>전체 요약</h3>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="num">5</div><div class="label">전체 요구사항</div></div>
+      <div class="stat-box"><div class="num">8</div><div class="label">전체 TC</div></div>
+      <div class="stat-box"><div class="num">2</div><div class="label">수행 회차</div></div>
+      <div class="stat-box"><div class="num">4</div><div class="label">전체 결함</div></div>
+      <div class="stat-box"><div class="num">100%</div><div class="label">TC 커버리지</div></div>
+    </div>
+
+    <h3>상태별 TC 현황 (2회차 기준)</h3>
+    <table>
+      <tr><th>상태</th><th>TC 수</th><th>비율</th></tr>
+      <tr><td><span class="badge badge-pass">✅ 통과</span></td><td>5</td><td>62.5%</td></tr>
+      <tr><td><span class="badge badge-fail">❌ 실패</span></td><td>2</td><td>25.0%</td></tr>
+      <tr><td><span class="badge badge-skip">⏭️ 건너뜀</span></td><td>1</td><td>12.5%</td></tr>
+      <tr><td><strong>합계</strong></td><td><strong>8</strong></td><td><strong>100%</strong></td></tr>
+    </table>
+
+    <h3>심각도별 결함 분포</h3>
+    <table>
+      <tr><th>심각도</th><th>신규</th><th>진행중</th><th>해결됨</th><th>종료</th><th>보류</th><th>합계</th></tr>
+      <tr><td><span class="badge badge-high">🔴 높음</span></td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td><span class="badge badge-mid">🟡 중간</span></td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>2</td></tr>
+      <tr><td><span class="badge badge-low">🟢 낮음</span></td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td><strong>합계</strong></td><td><strong>1</strong></td><td><strong>1</strong></td><td><strong>1</strong></td><td><strong>1</strong></td><td><strong>0</strong></td><td><strong>4</strong></td></tr>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- 요구사항 -->
+  <h2 id="requirements">📋 요구사항 목록</h2>
+  <div class="card">
+    <table>
+      <tr><th>ID</th><th>영역</th><th>제목</th><th>우선순위</th><th>상태</th><th>테스트 포인트</th></tr>
+      <tr><td>REQ-001</td><td>인증</td><td>사용자 로그인 기능</td><td><span class="badge badge-high">높음</span></td><td>완료</td><td>정상 로그인, 오류 메시지, 잠금 처리</td></tr>
+      <tr><td>REQ-002</td><td>인증</td><td>비밀번호 재설정</td><td><span class="badge badge-high">높음</span></td><td>진행중</td><td>이메일 발송, 토큰 유효성, 만료 처리</td></tr>
+      <tr><td>REQ-003</td><td>검색</td><td>상품 검색 기능</td><td><span class="badge badge-mid">중간</span></td><td>완료</td><td>키워드 검색, 필터, 정렬, 결과 없음</td></tr>
+      <tr><td>REQ-004</td><td>보안</td><td>XSS 방어</td><td><span class="badge badge-high">높음</span></td><td>완료</td><td>입력 필드 스크립트 삽입 차단</td></tr>
+      <tr><td>REQ-005</td><td>UI</td><td>페이지 로딩 성능</td><td><span class="badge badge-low">낮음</span></td><td>대기</td><td>초기 로딩 3초 이내, 검색 결과 1초 이내</td></tr>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- 테스트 스위트 -->
+  <h2 id="suites">📁 테스트 스위트 목록</h2>
+  <div class="card">
+    <table>
+      <tr><th>ID</th><th>스위트명</th><th>영역</th><th>포함 TC</th><th>담당자</th><th>최종 수행일</th></tr>
+      <tr><td>TS-001</td><td>인증 테스트 스위트</td><td>인증</td><td>TC-001, TC-002, TC-003</td><td>김철수</td><td>2026-03-12</td></tr>
+      <tr><td>TS-002</td><td>검색 기능 테스트 스위트</td><td>검색</td><td>TC-004, TC-005, TC-006</td><td>이영희</td><td>2026-03-12</td></tr>
+      <tr><td>TS-003</td><td>보안 &amp; 경계값 테스트 스위트</td><td>보안/UI</td><td>TC-007, TC-008</td><td>박민준</td><td>2026-03-13</td></tr>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- TC 목록 -->
+  <h2 id="tc-list">📝 TC 목록</h2>
+  <div class="card">
+    <table>
+      <tr><th>TC ID</th><th>스위트</th><th>요구사항</th><th>제목</th><th>유형</th><th>우선순위</th><th>사전 조건</th><th>입력값</th><th>예상 결과</th><th>최신 상태</th></tr>
+      <tr><td>TC-001</td><td>TS-001</td><td>REQ-001</td><td>정상 로그인</td><td>정상</td><td><span class="badge badge-high">높음</span></td><td>가입된 계정 존재</td><td>유효한 이메일/비밀번호</td><td>로그인 성공, 홈 화면 이동</td><td><span class="badge badge-pass">✅ 통과</span></td></tr>
+      <tr><td>TC-002</td><td>TS-001</td><td>REQ-001</td><td>잘못된 비밀번호 로그인</td><td>비정상</td><td><span class="badge badge-high">높음</span></td><td>가입된 계정 존재</td><td>유효한 이메일 + 잘못된 비밀번호</td><td>"비밀번호가 올바르지 않습니다" 메시지</td><td><span class="badge badge-pass">✅ 통과</span></td></tr>
+      <tr><td>TC-003</td><td>TS-001</td><td>REQ-001</td><td>5회 연속 로그인 실패 시 계정 잠금</td><td>경계값</td><td><span class="badge badge-high">높음</span></td><td>가입된 계정 존재</td><td>잘못된 비밀번호 5회 입력</td><td>계정 잠금 처리 및 안내 메시지</td><td><span class="badge badge-fail">❌ 실패</span></td></tr>
+      <tr><td>TC-004</td><td>TS-002</td><td>REQ-003</td><td>키워드 검색 정상 동작</td><td>정상</td><td><span class="badge badge-mid">중간</span></td><td>상품 데이터 10건 이상 존재</td><td>검색어: "노트북"</td><td>관련 상품 목록 반환</td><td><span class="badge badge-pass">✅ 통과</span></td></tr>
+      <tr><td>TC-005</td><td>TS-002</td><td>REQ-003</td><td>검색 결과 없음 처리</td><td>비정상</td><td><span class="badge badge-mid">중간</span></td><td>상품 데이터 존재</td><td>검색어: "xyzxyzxyz"</td><td>"검색 결과가 없습니다" 안내 문구 표시</td><td><span class="badge badge-pass">✅ 통과</span></td></tr>
+      <tr><td>TC-006</td><td>TS-002</td><td>REQ-003</td><td>최대 길이 검색어 입력</td><td>경계값</td><td><span class="badge badge-low">낮음</span></td><td>없음</td><td>검색어 255자 입력</td><td>오류 없이 처리됨 또는 안내 메시지</td><td><span class="badge badge-fail">❌ 실패</span></td></tr>
+      <tr><td>TC-007</td><td>TS-003</td><td>REQ-004</td><td>검색 입력 필드 XSS 스크립트 삽입</td><td>보안</td><td><span class="badge badge-high">높음</span></td><td>없음</td><td>&lt;script&gt;alert('xss')&lt;/script&gt;</td><td>스크립트 실행 안됨, 텍스트로 이스케이프</td><td><span class="badge badge-pass">✅ 통과</span></td></tr>
+      <tr><td>TC-008</td><td>TS-003</td><td>REQ-002</td><td>비밀번호 재설정 이메일 발송</td><td>정상</td><td><span class="badge badge-high">높음</span></td><td>가입된 이메일 존재</td><td>유효한 이메일 주소 입력</td><td>재설정 링크 이메일 발송</td><td><span class="badge badge-skip">⏭️ 건너뜀</span></td></tr>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- 수동 수행 기록 -->
+  <h2 id="manual-run">▶️ 수동 수행 기록</h2>
+  <div class="card">
+    <blockquote>수행 회차: <strong>2회차</strong> &nbsp;|&nbsp; 수행일: 2026-03-13 &nbsp;|&nbsp; 수행자: 박민준</blockquote>
+    <table>
+      <tr><th>TC ID</th><th>TC 제목</th><th>수행 결과</th><th>실제 결과</th><th>비고</th></tr>
+      <tr><td>TC-001</td><td>정상 로그인</td><td><span class="badge badge-pass">✅ 통과</span></td><td>로그인 성공 후 홈 화면 정상 이동 확인</td><td>-</td></tr>
+      <tr><td>TC-002</td><td>잘못된 비밀번호 로그인</td><td><span class="badge badge-pass">✅ 통과</span></td><td>오류 메시지 정상 표시</td><td>-</td></tr>
+      <tr><td>TC-003</td><td>5회 연속 로그인 실패 시 계정 잠금</td><td><span class="badge badge-fail">❌ 실패</span></td><td>5회 실패 후에도 계정 잠금 미처리, 계속 로그인 시도 가능</td><td>DEF-001 등록</td></tr>
+      <tr><td>TC-004</td><td>키워드 검색 정상 동작</td><td><span class="badge badge-pass">✅ 통과</span></td><td>검색 결과 정상 반환</td><td>-</td></tr>
+      <tr><td>TC-005</td><td>검색 결과 없음 처리</td><td><span class="badge badge-pass">✅ 통과</span></td><td>안내 문구 정상 표시</td><td>-</td></tr>
+      <tr><td>TC-006</td><td>최대 길이 검색어 입력</td><td><span class="badge badge-fail">❌ 실패</span></td><td>255자 입력 시 500 서버 오류 발생</td><td>DEF-002 등록</td></tr>
+      <tr><td>TC-007</td><td>검색 입력 필드 XSS 스크립트 삽입</td><td><span class="badge badge-pass">✅ 통과</span></td><td>스크립트 실행 안됨, HTML 이스케이프 정상 처리</td><td>-</td></tr>
+      <tr><td>TC-008</td><td>비밀번호 재설정 이메일 발송</td><td><span class="badge badge-skip">⏭️ 건너뜀</span></td><td>메일 서버 환경 미구성으로 스킵</td><td>3회차 재수행 예정</td></tr>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- 수행 이력 -->
+  <h2 id="history">📜 수행 이력</h2>
+
+  <h3>1회차 수행 요약</h3>
+  <div class="card">
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>수행일</td><td>2026-03-10</td></tr>
+      <tr><td>수행자</td><td>김철수, 이영희</td></tr>
+      <tr><td>수행 TC</td><td>TC-001 ~ TC-007 (7건)</td></tr>
+      <tr><td>통과</td><td>4건</td></tr>
+      <tr><td>실패</td><td>3건</td></tr>
+      <tr><td>건너뜀</td><td>0건</td></tr>
+      <tr><td>발견 결함</td><td>DEF-001, DEF-002, DEF-003</td></tr>
+    </table>
+    <table>
+      <tr><th>TC ID</th><th>결과</th><th>비고</th></tr>
+      <tr><td>TC-001</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+      <tr><td>TC-002</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+      <tr><td>TC-003</td><td><span class="badge badge-fail">❌ 실패</span></td><td>DEF-001 등록</td></tr>
+      <tr><td>TC-004</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+      <tr><td>TC-005</td><td><span class="badge badge-fail">❌ 실패</span></td><td>DEF-003 등록 (이후 수정됨)</td></tr>
+      <tr><td>TC-006</td><td><span class="badge badge-fail">❌ 실패</span></td><td>DEF-002 등록</td></tr>
+      <tr><td>TC-007</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+    </table>
+  </div>
+
+  <h3>2회차 수행 요약</h3>
+  <div class="card">
+    <table>
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>수행일</td><td>2026-03-13</td></tr>
+      <tr><td>수행자</td><td>박민준</td></tr>
+      <tr><td>수행 TC</td><td>TC-001 ~ TC-008 (8건)</td></tr>
+      <tr><td>통과</td><td>5건</td></tr>
+      <tr><td>실패</td><td>2건</td></tr>
+      <tr><td>건너뜀</td><td>1건</td></tr>
+      <tr><td>발견 결함</td><td>DEF-004 (신규)</td></tr>
+      <tr><td>해결 확인 결함</td><td>DEF-003 (종료 처리)</td></tr>
+    </table>
+    <table>
+      <tr><th>TC ID</th><th>결과</th><th>비고</th></tr>
+      <tr><td>TC-001</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+      <tr><td>TC-002</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+      <tr><td>TC-003</td><td><span class="badge badge-fail">❌ 실패</span></td><td>DEF-001 미해결 지속</td></tr>
+      <tr><td>TC-004</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+      <tr><td>TC-005</td><td><span class="badge badge-pass">✅ 통과</span></td><td>DEF-003 해결 확인, 종료 처리</td></tr>
+      <tr><td>TC-006</td><td><span class="badge badge-fail">❌ 실패</span></td><td>DEF-002 미해결 지속</td></tr>
+      <tr><td>TC-007</td><td><span class="badge badge-pass">✅ 통과</span></td><td>-</td></tr>
+      <tr><td>TC-008</td><td><span class="badge badge-skip">⏭️ 건너뜀</span></td><td>환경 미구성</td></tr>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- 결함 목록 -->
+  <h2 id="defects">🐛 결함 목록</h2>
+  <div class="card">
+    <table>
+      <tr><th>결함 ID</th><th>제목</th><th>연결 TC</th><th>요구사항</th><th>심각도</th><th>상태</th><th>발견일</th><th>담당자</th><th>설명</th></tr>
+      <tr><td>DEF-001</td><td>계정 잠금 미처리</td><td>TC-003</td><td>REQ-001</td><td><span class="badge badge-high">🔴 높음</span></td><td><span class="badge badge-new">🆕 신규</span></td><td>2026-03-10</td><td>백엔드팀</td><td>5회 연속 로그인 실패 시 계정이 잠기지 않아 무한 시도 가능. 보안 취약점 해당</td></tr>
+      <tr><td>DEF-002</td><td>255자 검색어 입력 시 500 오류</td><td>TC-006</td><td>REQ-003</td><td><span class="badge badge-mid">🟡 중간</span></td><td><span class="badge badge-wip">🔧 진행중</span></td><td>2026-03-10</td><td>백엔드팀</td><td>최대 길이 검색어 입력 시 서버에서 처리하지 못하고 500 Internal Server Error 반환</td></tr>
+      <tr><td>DEF-003</td><td>검색 결과 없음 안내 문구 미표시</td><td>TC-005</td><td>REQ-003</td><td><span class="badge badge-mid">🟡 중간</span></td><td><span class="badge badge-fixed">✔️ 해결됨</span></td><td>2026-03-10</td><td>프론트엔드팀</td><td>검색 결과가 없을 때 빈 화면만 표시되어 사용자 혼란 유발. 2회차 수행에서 해결 확인</td></tr>
+      <tr><td>DEF-004</td><td>비밀번호 재설정 링크 만료 안내 없음</td><td>TC-008</td><td>REQ-002</td><td><span class="badge badge-low">🟢 낮음</span></td><td><span class="badge badge-closed">🔒 종료</span></td><td>2026-03-13</td><td>-</td><td>재설정 링크 만료 시 별도 안내 없이 오류 화면 노출. 현재 스프린트 외 이슈로 종료 처리</td></tr>
+    </table>
+    <p class="legend">결함 상태 범례: 🆕 신규 &nbsp;|&nbsp; 🔧 진행중 &nbsp;|&nbsp; ✔️ 해결됨 &nbsp;|&nbsp; 🔒 종료 &nbsp;|&nbsp; ⏸️ 보류</p>
+  </div>
+
+  <hr>
+
+  <!-- RTM -->
+  <h2 id="rtm">🔗 RTM (요구사항 추적 매트릭스)</h2>
+  <div class="card">
+    <blockquote>요구사항 ↔ TC ↔ 결함 간 연결 관계를 추적합니다. <span class="warn">⚠️</span> 표시는 미연결 항목입니다.</blockquote>
+
+    <h3>요구사항 ↔ TC ↔ 결함 매핑</h3>
+    <table>
+      <tr><th>요구사항 ID</th><th>요구사항 제목</th><th>연결 TC</th><th>TC 수행 결과</th><th>연결 결함</th><th>결함 상태</th><th>커버리지</th></tr>
+      <tr><td>REQ-001</td><td>사용자 로그인 기능</td><td>TC-001, TC-002, TC-003</td><td><span class="badge badge-pass">✅</span> <span class="badge badge-pass">✅</span> <span class="badge badge-fail">❌</span></td><td>DEF-001</td><td><span class="badge badge-new">🆕 신규</span></td><td><span class="badge badge-pass">✅ 완료</span></td></tr>
+      <tr><td>REQ-002</td><td>비밀번호 재설정</td><td>TC-008</td><td><span class="badge badge-skip">⏭️ 건너뜀</span></td><td>DEF-004</td><td><span class="badge badge-closed">🔒 종료</span></td><td><span class="warn">⚠️ 미완료</span></td></tr>
+      <tr><td>REQ-003</td><td>상품 검색 기능</td><td>TC-004, TC-005, TC-006</td><td><span class="badge badge-pass">✅</span> <span class="badge badge-pass">✅</span> <span class="badge badge-fail">❌</span></td><td>DEF-002, DEF-003</td><td><span class="badge badge-wip">🔧 진행중</span> / <span class="badge badge-fixed">✔️ 해결됨</span></td><td><span class="badge badge-pass">✅ 완료</span></td></tr>
+      <tr><td>REQ-004</td><td>XSS 방어</td><td>TC-007</td><td><span class="badge badge-pass">✅</span></td><td>-</td><td>-</td><td><span class="badge badge-pass">✅ 완료</span></td></tr>
+      <tr><td>REQ-005</td><td>페이지 로딩 성능</td><td><span class="warn">⚠️ 없음</span></td><td>-</td><td>-</td><td>-</td><td><span class="warn">⚠️ 미연결</span></td></tr>
+    </table>
+
+    <h3>미연결 항목 현황</h3>
+    <table>
+      <tr><th>구분</th><th>ID</th><th>내용</th><th>조치 필요</th></tr>
+      <tr><td><span class="warn">⚠️ 요구사항 → TC 미연결</span></td><td>REQ-005</td><td>페이지 로딩 성능 요구사항에 대한 TC 없음</td><td>TC 작성 필요</td></tr>
+      <tr><td>TC → 결함 미연결</td><td>TC-001, TC-002, TC-004, TC-005, TC-007</td><td>통과된 TC로 결함 없음 (정상)</td><td>해당 없음</td></tr>
+      <tr><td><span class="warn">⚠️ TC 미수행</span></td><td>TC-008</td><td>환경 미구성으로 건너뜀</td><td>3회차 재수행 예정</td></tr>
+    </table>
+
+    <h3>TC ↔ 결함 상세 매핑</h3>
+    <table>
+      <tr><th>TC ID</th><th>TC 제목</th><th>연결 결함</th><th>결함 심각도</th><th>결함 상태</th></tr>
+      <tr><td>TC-003</td><td>5회 연속 로그인 실패 시 계정 잠금</td><td>DEF-001</td><td><span class="badge badge-high">🔴 높음</span></td><td><span class="badge badge-new">🆕 신규</span></td></tr>
+      <tr><td>TC-005</td><td>검색 결과 없음 처리</td><td>DEF-003</td><td><span class="badge badge-mid">🟡 중간</span></td><td><span class="badge badge-fixed">✔️ 해결됨</span></td></tr>
+      <tr><td>TC-006</td><td>최대 길이 검색어 입력</td><td>DEF-002</td><td><span class="badge badge-mid">🟡 중간</span></td><td><span class="badge badge-wip">🔧 진행중</span></td></tr>
+      <tr><td>TC-008</td><td>비밀번호 재설정 이메일 발송</td><td>DEF-004</td><td><span class="badge badge-low">🟢 낮음</span></td><td><span class="badge badge-closed">🔒 종료</span></td></tr>
+    </table>
+  </div>
+
+  <hr>
+  <p style="text-align:center; color:#586069; font-size:12px; padding: 16px 0;">이 문서는 QA 테스트케이스 관리 도구입니다. 변경 시 모든 섹션의 ID 일관성을 유지하세요.</p>
+
+</div>
+</body>
+</html>
