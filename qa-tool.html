@@ -679,6 +679,21 @@ function loadSample() {
     {id:'FR-013',area:'보안',title:'세션 및 토큰 관리',desc:'JWT 기반 인증. 30분 비활동 시 자동 로그아웃, Refresh Token 갱신.',priority:'상',status:'확정',comments:[],images:[]},
     {id:'FR-014',area:'API',title:'데이터 내보내기 API',desc:'검사 결과·로그 CSV/Excel 다운로드. 조회 조건 필터 지원.',priority:'중',status:'검토중',comments:[],images:[]},
     {id:'FR-015',area:'비기능',title:'감사 로그 기록',desc:'모든 데이터 조회·수정 이벤트 저장. 90일 보관, 관리자 조회 가능.',priority:'중',status:'확정',comments:[],images:[]},
+    {id:'FR-016',area:'기능',title:'처방 조회 및 이력 관리',desc:'환자별 처방 내역 조회, 중복 처방 경고, 처방 이력 90일 보관.',priority:'상',status:'확정',comments:[{author:'이기획',text:'중복 처방 경고 알고리즘 별도 명세 필요',time:'2026-02-20 13:00'}],images:[]},
+    {id:'FR-017',area:'API',title:'EMR 시스템 연동',desc:'병원 EMR과 HL7 FHIR 기반 양방향 데이터 동기화. 실시간 반영.',priority:'상',status:'검토중',comments:[{author:'박API',text:'FHIR R4 vs R5 버전 선택 논의 중',time:'2026-02-28 10:30'},{author:'이QA',text:'연동 장애 시 Fallback 시나리오 추가 요청',time:'2026-03-02 09:00'}],images:[]},
+    {id:'FR-018',area:'기능',title:'약물 이상반응 알림',desc:'처방 등록 시 알려진 이상반응 DB와 자동 대조, 위험 등급 표시.',priority:'상',status:'확정',comments:[],images:[]},
+    {id:'FR-019',area:'기능',title:'검사 예약 및 스케줄 관리',desc:'환자 검사 예약 등록·수정·취소. 담당 의료진 배정 및 캘린더 표시.',priority:'중',status:'확정',comments:[],images:[]},
+    {id:'FR-020',area:'기능',title:'의료진 근무 스케줄 관리',desc:'의료진 근무표 등록·조회. 야간·주말 근무 구분, 부재 시 대리자 지정.',priority:'중',status:'검토중',comments:[],images:[]},
+    {id:'FR-021',area:'보안',title:'저장 데이터 암호화',desc:'환자 개인정보·진단 기록 AES-256 암호화 저장. 키 관리 정책 포함.',priority:'상',status:'확정',comments:[{author:'박보안',text:'키 로테이션 주기 90일 → 30일 강화 검토',time:'2026-03-05 11:00'}],images:[]},
+    {id:'FR-022',area:'비기능',title:'시스템 성능 모니터링',desc:'API 응답 시간·CPU·메모리 실시간 모니터링. 임계값 초과 시 알림.',priority:'중',status:'검토중',comments:[],images:[]},
+    {id:'FR-023',area:'보안',title:'접근 IP 화이트리스트',desc:'관리자 페이지 접근을 허가된 IP 대역으로 제한. IP 변경 이력 기록.',priority:'중',status:'확정',comments:[],images:[]},
+    {id:'FR-024',area:'UI/UX',title:'대시보드 위젯 커스터마이징',desc:'사용자별 대시보드 레이아웃·위젯 종류 설정 저장.',priority:'하',status:'보류',comments:[],images:[]},
+    {id:'FR-025',area:'기능',title:'AI 모델 버전 관리',desc:'AI 진단 모델 버전 등록·활성화·롤백. 버전별 성능 지표 비교.',priority:'상',status:'검토중',comments:[{author:'김AI',text:'A/B 테스트 기능 포함 여부 검토 중',time:'2026-03-04 16:00'}],images:[]},
+    {id:'FR-026',area:'API',title:'배치 데이터 처리 API',desc:'대용량 검사 결과 일괄 업로드. 처리 상태 조회 및 오류 리포트.',priority:'중',status:'확정',comments:[],images:[]},
+    {id:'FR-027',area:'UI/UX',title:'화면 인쇄 및 스크린샷',desc:'현재 화면 인쇄 최적화 CSS 적용. 환자 정보 마스킹 후 인쇄.',priority:'하',status:'보류',comments:[],images:[]},
+    {id:'FR-028',area:'기능',title:'시스템 공지사항 관리',desc:'관리자 공지 등록·수정·삭제. 로그인 시 팝업 노출, 읽음 처리.',priority:'하',status:'확정',comments:[],images:[]},
+    {id:'FR-029',area:'기능',title:'비밀번호 분실 및 재설정',desc:'이메일 인증 코드 발송. 코드 유효 시간 10분, 재발송 3회 제한.',priority:'중',status:'확정',comments:[],images:[]},
+    {id:'FR-030',area:'보안',title:'개인정보 처리 동의 관리',desc:'최초 로그인 시 개인정보 처리 동의 수집. 동의 이력 DB 보관.',priority:'상',status:'확정',comments:[{author:'법무팀',text:'개정 개인정보보호법 기준 반영 완료',time:'2026-02-15 14:00'}],images:[]},
   ];
   data.tc = [
     /* FR-001 로그인 */
@@ -717,6 +732,41 @@ function loadSample() {
     {id:'TC-024',reqId:'FR-013',year:'2026',area:'보안',title:'Refresh Token 자동 갱신',pre:'액세스 토큰 만료 임박',steps:'1. 액세스 토큰 만료 5분 전 상태에서 API 호출',expected:'Refresh Token으로 자동 갱신 후 정상 응답',type:'정상',priority:'높음',status:'통과',assignee:'최API',date:'2026-03-10',desc:'',comments:[],images:[]},
     /* FR-015 감사 로그 */
     {id:'TC-025',reqId:'FR-015',year:'2026',area:'비기능',title:'환자 데이터 조회 감사 로그 기록',pre:'감사 로그 활성화',steps:'1. 의사 계정으로 환자 데이터 조회\n2. 관리자 페이지 > 감사 로그 확인',expected:'조회 이벤트(사용자·일시·대상) 로그 기록됨',type:'정상',priority:'중간',status:'통과',assignee:'이QA',date:'2026-03-12',desc:'',comments:[],images:[]},
+    /* FR-016 처방 조회 */
+    {id:'TC-026',reqId:'FR-016',year:'2026',area:'기능',title:'환자 처방 이력 정상 조회',pre:'처방 이력 3건 이상 존재',steps:'1. 환자 등록번호 입력\n2. 처방 이력 탭 클릭\n3. 목록 확인',expected:'처방 날짜·약명·용량 목록 표시',type:'정상',priority:'높음',status:'통과',assignee:'김QA',date:'2026-03-13',desc:'',comments:[],images:[]},
+    {id:'TC-027',reqId:'FR-016',year:'2026',area:'기능',title:'중복 처방 등록 시 경고 표시',pre:'동일 약물 기존 처방 존재',steps:'1. 기존 처방과 동일한 약물 처방 입력\n2. 저장 시도',expected:'중복 처방 경고 팝업 표시 및 확인 요구',type:'경계값',priority:'높음',status:'통과',assignee:'김QA',date:'2026-03-13',desc:'',comments:[],images:[]},
+    {id:'TC-028',reqId:'FR-016',year:'2026',area:'기능',title:'처방 이력 90일 초과 데이터 표시',pre:'91일 이전 처방 존재',steps:'1. 처방 이력 조회\n2. 91일 이전 항목 확인',expected:'91일 이전 처방은 목록에 표시되지 않음',type:'경계값',priority:'중간',status:'미수행',assignee:'이QA',date:'',desc:'',comments:[],images:[]},
+    /* FR-017 EMR 연동 */
+    {id:'TC-029',reqId:'FR-017',year:'2026',area:'API',title:'EMR 환자 데이터 실시간 동기화',pre:'EMR 연동 설정 완료',steps:'1. EMR에서 환자 정보 수정\n2. GC MediAI 화면 새로고침\n3. 데이터 일치 확인',expected:'EMR 수정 후 30초 이내 반영',type:'정상',priority:'높음',status:'미수행',assignee:'최API',date:'',desc:'',comments:[],images:[]},
+    {id:'TC-030',reqId:'FR-017',year:'2026',area:'API',title:'EMR 연동 장애 시 Fallback 처리',pre:'EMR 서버 다운 상태',steps:'1. EMR 서버 강제 종료\n2. GC MediAI에서 환자 데이터 조회',expected:'마지막 캐시 데이터 표시 및 연동 오류 배너 표시',type:'비정상',priority:'높음',status:'미수행',assignee:'최API',date:'',desc:'',comments:[],images:[]},
+    {id:'TC-031',reqId:'FR-017',year:'2026',area:'API',title:'FHIR R4 포맷 데이터 파싱',pre:'FHIR R4 규격 테스트 데이터',steps:'1. FHIR R4 Patient 리소스 전송\n2. GC MediAI 수신 확인',expected:'환자 ID·이름·생년월일 정상 파싱 및 저장',type:'정상',priority:'높음',status:'미수행',assignee:'최API',date:'',desc:'',comments:[],images:[]},
+    /* FR-018 약물 이상반응 */
+    {id:'TC-032',reqId:'FR-018',year:'2026',area:'기능',title:'이상반응 고위험 약물 처방 시 경고',pre:'이상반응 DB 최신화됨',steps:'1. 고위험 이상반응 약물 처방 입력\n2. 저장 클릭',expected:'빨간 경고 배너 표시 및 확인 서명 요구',type:'정상',priority:'높음',status:'통과',assignee:'이QA',date:'2026-03-14',desc:'',comments:[],images:[]},
+    {id:'TC-033',reqId:'FR-018',year:'2026',area:'기능',title:'이상반응 없는 약물 처방 정상 저장',pre:'',steps:'1. 이상반응 없는 약물 처방 입력\n2. 저장 클릭',expected:'경고 없이 처방 정상 저장',type:'정상',priority:'중간',status:'통과',assignee:'이QA',date:'2026-03-14',desc:'',comments:[],images:[]},
+    {id:'TC-034',reqId:'FR-018',year:'2026',area:'기능',title:'이상반응 DB 미갱신 시 처방 차단 여부',pre:'이상반응 DB 30일 이상 미갱신',steps:'1. 처방 입력 시도',expected:'DB 갱신 필요 경고 표시, 처방 저장 허용',type:'비정상',priority:'중간',status:'실패',assignee:'박QA',date:'2026-03-14',desc:'',comments:[{author:'박QA',text:'DB 미갱신 시 경고 없이 정상 처리됨',time:'2026-03-14 11:20'}],images:[]},
+    /* FR-019 검사 예약 */
+    {id:'TC-035',reqId:'FR-019',year:'2026',area:'기능',title:'검사 예약 정상 등록',pre:'의료진 스케줄 등록됨',steps:'1. 환자 선택\n2. 검사 유형·날짜·담당의 입력\n3. 예약 저장',expected:'예약 완료 메시지 및 캘린더 반영',type:'정상',priority:'중간',status:'통과',assignee:'박QA',date:'2026-03-12',desc:'',comments:[],images:[]},
+    {id:'TC-036',reqId:'FR-019',year:'2026',area:'기능',title:'중복 예약 시간 슬롯 차단',pre:'특정 시간 슬롯 예약 완료',steps:'1. 동일 시간 슬롯에 다른 환자 예약 시도',expected:'"이미 예약된 시간입니다." 오류 표시',type:'경계값',priority:'중간',status:'통과',assignee:'박QA',date:'2026-03-12',desc:'',comments:[],images:[]},
+    /* FR-021 데이터 암호화 */
+    {id:'TC-037',reqId:'FR-021',year:'2026',area:'보안',title:'DB 직접 조회 시 데이터 암호화 확인',pre:'DB 접근 권한 보유',steps:'1. DB 클라이언트로 patients 테이블 직접 조회',expected:'주민번호·연락처 컬럼 암호화 문자열 표시',type:'보안',priority:'높음',status:'통과',assignee:'이QA',date:'2026-03-10',desc:'',comments:[],images:[]},
+    {id:'TC-038',reqId:'FR-021',year:'2026',area:'보안',title:'암호화 키 로테이션 후 데이터 복호화',pre:'암호화 키 로테이션 완료',steps:'1. 키 로테이션 실행\n2. 기존 암호화 데이터 조회',expected:'기존 데이터 정상 복호화 및 화면 표시',type:'정상',priority:'높음',status:'미수행',assignee:'이QA',date:'',desc:'',comments:[],images:[]},
+    /* FR-022 성능 모니터링 */
+    {id:'TC-039',reqId:'FR-022',year:'2026',area:'비기능',title:'API 응답 임계값 초과 알림',pre:'모니터링 에이전트 활성화',steps:'1. API 응답 시간 3,000ms 초과 상황 재현\n2. 알림 수신 확인',expected:'5분 이내 관리자 이메일 알림 발송',type:'비정상',priority:'중간',status:'미수행',assignee:'최API',date:'',desc:'',comments:[],images:[]},
+    {id:'TC-040',reqId:'FR-022',year:'2026',area:'비기능',title:'동시 접속 100명 성능 테스트',pre:'부하 테스트 환경 구성',steps:'1. 가상 사용자 100명 동시 로그인\n2. 대시보드 로드 응답 측정',expected:'평균 응답 2,000ms 이하, 오류율 1% 미만',type:'비정상',priority:'중간',status:'미수행',assignee:'최API',date:'',desc:'',comments:[],images:[]},
+    /* FR-025 AI 모델 버전 */
+    {id:'TC-041',reqId:'FR-025',year:'2026',area:'기능',title:'AI 모델 신규 버전 등록 및 활성화',pre:'관리자 권한 로그인',steps:'1. AI 모델 관리 메뉴 진입\n2. 모델 파일 업로드\n3. 활성화 버튼 클릭',expected:'신규 버전 활성화 완료 및 진단 기능에 즉시 반영',type:'정상',priority:'높음',status:'미수행',assignee:'김AI',date:'',desc:'',comments:[],images:[]},
+    {id:'TC-042',reqId:'FR-025',year:'2026',area:'기능',title:'AI 모델 이전 버전 롤백',pre:'모델 v2.4 활성화 상태',steps:'1. 모델 버전 목록에서 v2.3 선택\n2. 롤백 버튼 클릭',expected:'v2.3 활성화 완료 메시지 및 진단 기능 정상 동작',type:'정상',priority:'높음',status:'미수행',assignee:'김AI',date:'',desc:'',comments:[],images:[]},
+    /* FR-026 배치 처리 */
+    {id:'TC-043',reqId:'FR-026',year:'2026',area:'API',title:'대용량 CSV 일괄 업로드',pre:'10,000건 CSV 파일 준비',steps:'1. 배치 업로드 API 호출\n2. 처리 상태 폴링',expected:'10,000건 정상 처리 완료, 처리 시간 5분 이하',type:'정상',priority:'중간',status:'미수행',assignee:'최API',date:'',desc:'',comments:[],images:[]},
+    {id:'TC-044',reqId:'FR-026',year:'2026',area:'API',title:'배치 처리 중 오류 행 리포트',pre:'오류 데이터 포함 CSV',steps:'1. 필드 누락 오류 데이터 포함 CSV 업로드\n2. 처리 완료 후 리포트 조회',expected:'오류 행 번호·사유 목록 리포트 다운로드 가능',type:'비정상',priority:'중간',status:'통과',assignee:'최API',date:'2026-03-13',desc:'',comments:[],images:[]},
+    /* FR-029 비밀번호 분실 */
+    {id:'TC-045',reqId:'FR-029',year:'2026',area:'기능',title:'비밀번호 재설정 이메일 발송',pre:'등록된 이메일 존재',steps:'1. 비밀번호 찾기 클릭\n2. 이메일 입력\n3. 발송 버튼 클릭',expected:'10분 유효 인증코드 이메일 수신',type:'정상',priority:'중간',status:'통과',assignee:'박QA',date:'2026-03-11',desc:'',comments:[],images:[]},
+    {id:'TC-046',reqId:'FR-029',year:'2026',area:'기능',title:'인증코드 10분 만료 후 재설정 차단',pre:'인증코드 발송됨',steps:'1. 인증코드 발송\n2. 10분 대기\n3. 만료 코드로 재설정 시도',expected:'"인증코드가 만료되었습니다." 오류 표시',type:'경계값',priority:'중간',status:'통과',assignee:'박QA',date:'2026-03-11',desc:'',comments:[],images:[]},
+    /* FR-030 개인정보 동의 */
+    {id:'TC-047',reqId:'FR-030',year:'2026',area:'보안',title:'최초 로그인 시 개인정보 동의 팝업 표시',pre:'신규 계정 첫 로그인',steps:'1. 신규 계정으로 로그인',expected:'개인정보 처리 동의 팝업 표시 및 동의 전 진행 차단',type:'정상',priority:'높음',status:'통과',assignee:'이QA',date:'2026-03-12',desc:'',comments:[],images:[]},
+    {id:'TC-048',reqId:'FR-030',year:'2026',area:'보안',title:'동의 거부 시 서비스 이용 차단',pre:'',steps:'1. 동의 팝업에서 거부 클릭',expected:'서비스 이용 불가 안내 후 로그아웃',type:'비정상',priority:'높음',status:'통과',assignee:'이QA',date:'2026-03-12',desc:'',comments:[],images:[]},
+    {id:'TC-049',reqId:'FR-030',year:'2026',area:'보안',title:'동의 이력 DB 저장 확인',pre:'동의 완료 후',steps:'1. 동의 완료\n2. 관리자 > 동의 이력 조회',expected:'동의 일시·IP·계정 정보 이력 저장됨',type:'정상',priority:'중간',status:'통과',assignee:'이QA',date:'2026-03-12',desc:'',comments:[],images:[]},
+    {id:'TC-050',reqId:'FR-028',year:'2026',area:'기능',title:'로그인 시 미확인 공지사항 팝업 표시',pre:'미확인 공지 1건 이상 존재',steps:'1. 로그인\n2. 메인 화면 진입',expected:'공지사항 팝업 표시 및 확인 버튼 클릭 후 닫힘',type:'정상',priority:'낮음',status:'통과',assignee:'박QA',date:'2026-03-13',desc:'',comments:[],images:[]},
   ];
   tcYears = ['2026']; saveTcYears();
   data.def = [
@@ -730,6 +780,16 @@ function loadSample() {
     {id:'BUG-008',tcId:'TC-021',area:'보안',title:'간호사 역할 URL 직접 접근 시 403 미반환',desc:'[재현 절차] 간호사 계정으로 /admin/users 직접 접근\n[기대 결과] HTTP 403 및 접근 차단 UI\n[실제 결과] 빈 페이지 응답 (상태코드 200)\n[환경] API 게이트웨이 v1.8',sev:'높음',status:'신규',assignee:'개발팀A',date:'2026-03-09',reporter:'이QA',comments:[],images:[]},
     {id:'BUG-009',tcId:'TC-005',area:'기능',title:'세션 만료 후 로그인 화면 이동 지연',desc:'[재현 절차] 30분 비활동 후 화면 클릭\n[기대 결과] 즉시 로그인 화면 이동\n[실제 결과] 3~5초 지연 후 이동\n[환경] Edge 123',sev:'낮음',status:'진행중',assignee:'개발팀B',date:'2026-03-07',reporter:'이QA',comments:[],images:[]},
     {id:'BUG-010',tcId:'TC-014',area:'기능',title:'AI 분석 결과 신뢰도 소수점 표기 오류',desc:'[재현 절차] AI 분석 실행 후 신뢰도 수치 확인\n[기대 결과] 소수점 1자리 표시 (예: 94.1%)\n[실제 결과] 소수점 8자리 표시 (예: 94.10000001%)\n[환경] Chrome 123',sev:'낮음',status:'해결됨',assignee:'개발팀C',date:'2026-03-08',reporter:'김AI',comments:[{author:'개발팀C',text:'toFixed(1) 적용으로 해결',time:'2026-03-09 11:00'}],images:[]},
+    {id:'BUG-011',tcId:'TC-027',area:'기능',title:'중복 처방 경고 팝업 버튼 클릭 무반응',desc:'[재현 절차] 중복 약물 처방 입력 후 경고 팝업 "확인" 클릭\n[기대 결과] 처방 저장 진행\n[실제 결과] 버튼 클릭 후 아무 반응 없음, 콘솔 TypeError 발생\n[환경] Chrome 123, Firefox 124',sev:'높음',status:'신규',assignee:'개발팀A',date:'2026-03-13',reporter:'김QA',comments:[{author:'김QA',text:'onClick 이벤트 핸들러 누락으로 추정',time:'2026-03-13 10:45'}],images:[]},
+    {id:'BUG-012',tcId:'TC-032',area:'기능',title:'고위험 약물 이상반응 경고 미표시',desc:'[재현 절차] 이상반응 DB에 등록된 고위험 약물 처방 입력\n[기대 결과] 빨간 경고 배너 및 서명 요구\n[실제 결과] 경고 없이 처방 바로 저장됨\n[환경] 이상반응 DB v1.2, Chrome 123',sev:'높음',status:'진행중',assignee:'개발팀A',date:'2026-03-14',reporter:'이QA',comments:[{author:'개발팀A',text:'약물 코드 매핑 로직 오류 확인',time:'2026-03-14 15:00'}],images:[]},
+    {id:'BUG-013',tcId:'TC-034',area:'기능',title:'이상반응 DB 미갱신 경고 미노출',desc:'[재현 절차] DB 갱신일 31일 초과 상태에서 처방 입력\n[기대 결과] DB 갱신 필요 경고 표시\n[실제 결과] 경고 없이 정상 처방 저장\n[환경] Chrome 123, DB 마지막 갱신 2026-02-10',sev:'중간',status:'신규',assignee:'개발팀B',date:'2026-03-14',reporter:'박QA',comments:[],images:[]},
+    {id:'BUG-014',tcId:'TC-035',area:'기능',title:'검사 예약 저장 후 캘린더 미반영',desc:'[재현 절차] 검사 예약 저장\n[기대 결과] 캘린더에 즉시 반영\n[실제 결과] 새로고침 전까지 캘린더에 표시 안됨\n[환경] Safari 17, 예약 모듈 v1.1',sev:'중간',status:'신규',assignee:'개발팀C',date:'2026-03-12',reporter:'박QA',comments:[{author:'개발팀C',text:'캘린더 상태 업데이트 누락 — 이벤트 구독 로직 수정 필요',time:'2026-03-13 09:30'}],images:[]},
+    {id:'BUG-015',tcId:'TC-037',area:'보안',title:'주민번호 컬럼 일부 미암호화',desc:'[재현 절차] DB 직접 조회로 patients 테이블 확인\n[기대 결과] 주민번호 컬럼 전체 암호화\n[실제 결과] 2026-01-15 이전 등록 데이터 평문 저장\n[환경] MySQL 8.0 직접 조회',sev:'높음',status:'진행중',assignee:'개발팀A',date:'2026-03-10',reporter:'이QA',comments:[{author:'이QA',text:'마이그레이션 스크립트 미적용 구간 확인',time:'2026-03-10 16:00'},{author:'개발팀A',text:'전체 마이그레이션 배치 작업 03/20 예정',time:'2026-03-11 10:00'}],images:[]},
+    {id:'BUG-016',tcId:'TC-043',area:'API',title:'배치 업로드 5,000건 초과 시 타임아웃',desc:'[재현 절차] 10,000건 CSV 배치 업로드 요청\n[기대 결과] 5분 이내 처리 완료\n[실제 결과] 5,200건 처리 후 Gateway Timeout (504)\n[환경] Postman, API v2.1',sev:'높음',status:'신규',assignee:'개발팀B',date:'2026-03-13',reporter:'최API',comments:[],images:[]},
+    {id:'BUG-017',tcId:'TC-045',area:'기능',title:'비밀번호 재설정 이메일 발송 지연',desc:'[재현 절차] 비밀번호 찾기 이메일 발송 요청\n[기대 결과] 1분 이내 수신\n[실제 결과] 평균 8~12분 후 수신\n[환경] Gmail / Naver Mail 모두 동일',sev:'중간',status:'진행중',assignee:'개발팀B',date:'2026-03-11',reporter:'박QA',comments:[{author:'개발팀B',text:'메일 서버 큐 처리 지연 확인, SMTP 설정 검토 중',time:'2026-03-12 14:00'}],images:[]},
+    {id:'BUG-018',tcId:'TC-047',area:'보안',title:'개인정보 동의 팝업 뒤로 가기로 우회',desc:'[재현 절차] 동의 팝업 표시 중 브라우저 뒤로 가기 클릭\n[기대 결과] 동의 완료 전 서비스 차단\n[실제 결과] 뒤로 가기 후 메인 화면 접근 가능\n[환경] Chrome 123 모바일',sev:'높음',status:'신규',assignee:'개발팀A',date:'2026-03-12',reporter:'이QA',comments:[{author:'이QA',text:'History API 우회 취약점 — 보안 긴급 수정 요청',time:'2026-03-12 17:00'}],images:[]},
+    {id:'BUG-019',tcId:'TC-041',area:'기능',title:'AI 모델 활성화 후 기존 분석 결과 초기화',desc:'[재현 절차] AI 모델 v2.4 활성화\n[기대 결과] 기존 분석 결과 유지\n[실제 결과] 기존 환자 분석 결과 전체 초기화됨\n[환경] 모델 관리 v1.0',sev:'높음',status:'신규',assignee:'개발팀C',date:'2026-03-14',reporter:'김AI',comments:[{author:'김AI',text:'치명적 데이터 손실 — 즉시 롤백 및 원인 분석 필요',time:'2026-03-14 13:00'}],images:[]},
+    {id:'BUG-020',tcId:'TC-050',area:'기능',title:'공지사항 팝업 "닫기" 후 재로그인 시 재표시',desc:'[재현 절차] 공지 팝업 확인 후 로그아웃 → 재로그인\n[기대 결과] 확인한 공지는 다시 표시 안 됨\n[실제 결과] 로그인마다 동일 공지 반복 표시\n[환경] Chrome 123, 공지 모듈 v1.0',sev:'낮음',status:'해결됨',assignee:'개발팀C',date:'2026-03-13',reporter:'박QA',comments:[{author:'개발팀C',text:'읽음 처리 플래그 세션에만 저장되던 버그 수정',time:'2026-03-14 10:00'}],images:[]},
   ];
   ['req','tc','def'].forEach(t => save(t));
   localStorage.setItem(KEYS.areas, JSON.stringify(areas));
