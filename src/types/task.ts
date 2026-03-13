@@ -1,4 +1,4 @@
-export type Priority = "low" | "medium" | "high"
+export type Priority = "minor" | "major" | "critical"
 export type FilterStatus = "all" | "active" | "completed"
 
 export interface Task {
@@ -7,4 +7,6 @@ export interface Task {
   priority: Priority
   completed: boolean
   createdAt: number
+  dueDate?: string
+  assignee?: string
 }

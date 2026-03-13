@@ -13,7 +13,7 @@ export function TaskList({ tasks, onToggle, onDelete }: Props) {
     return (
       <div className={styles.empty} role="status">
         <div className={styles.emptyIcon}>✓</div>
-        <p>No tasks here. Add one above!</p>
+        <p>등록된 태스크가 없습니다.</p>
       </div>
     )
   }

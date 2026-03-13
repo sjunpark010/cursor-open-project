@@ -6,32 +6,32 @@ import { AddTaskForm } from '../components/AddTaskForm'
 describe('AddTaskForm', () => {
   it('renders input, select, and submit button', () => {
     render(<AddTaskForm onAdd={vi.fn()} />)
-    expect(screen.getByRole('textbox')).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /태스크 제목/ })).toBeInTheDocument()
     expect(screen.getByRole('combobox')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /add task/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /추가/ })).toBeInTheDocument()
   })
 
   it('calls onAdd with trimmed title and selected priority', async () => {
     const onAdd = vi.fn()
     render(<AddTaskForm onAdd={onAdd} />)
-    await userEvent.type(screen.getByRole('textbox'), '  Buy milk  ')
-    await userEvent.selectOptions(screen.getByRole('combobox'), 'high')
-    await userEvent.click(screen.getByRole('button', { name: /add task/i }))
-    expect(onAdd).toHaveBeenCalledWith('Buy milk', 'high')
+    await userEvent.type(screen.getByRole('textbox', { name: /태스크 제목/ }), '  Buy milk  ')
+    await userEvent.selectOptions(screen.getByRole('combobox'), 'critical')
+    await userEvent.click(screen.getByRole('button', { name: /추가/ }))
+    expect(onAdd).toHaveBeenCalledWith('Buy milk', 'critical', undefined, undefined)
   })
 
   it('does not call onAdd for empty input', async () => {
     const onAdd = vi.fn()
     render(<AddTaskForm onAdd={onAdd} />)
-    await userEvent.click(screen.getByRole('button', { name: /add task/i }))
+    await userEvent.click(screen.getByRole('button', { name: /추가/ }))
     expect(onAdd).not.toHaveBeenCalled()
   })
 
   it('clears input after successful submit', async () => {
     render(<AddTaskForm onAdd={vi.fn()} />)
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('textbox', { name: /태스크 제목/ })
     await userEvent.type(input, 'Task title')
-    await userEvent.click(screen.getByRole('button', { name: /add task/i }))
+    await userEvent.click(screen.getByRole('button', { name: /추가/ }))
     expect(input).toHaveValue('')
   })
 })

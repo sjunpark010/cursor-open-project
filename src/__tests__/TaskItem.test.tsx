@@ -7,7 +7,7 @@ import { Task } from '../types/task'
 const mockTask: Task = {
   id: '1',
   title: 'Test task',
-  priority: 'high',
+  priority: 'critical',
   completed: false,
   createdAt: Date.now(),
 }
@@ -16,7 +16,7 @@ describe('TaskItem', () => {
   it('renders task title and priority badge', () => {
     render(<TaskItem task={mockTask} onToggle={vi.fn()} onDelete={vi.fn()} />)
     expect(screen.getByText('Test task')).toBeInTheDocument()
-    expect(screen.getByText('high')).toBeInTheDocument()
+    expect(screen.getByText('Critical')).toBeInTheDocument()
   })
 
   it('calls onToggle when checkbox clicked', async () => {
@@ -29,7 +29,7 @@ describe('TaskItem', () => {
   it('calls onDelete when delete button clicked', async () => {
     const onDelete = vi.fn()
     render(<TaskItem task={mockTask} onToggle={vi.fn()} onDelete={onDelete} />)
-    await userEvent.click(screen.getByRole('button', { name: /delete/i }))
+    await userEvent.click(screen.getByRole('button', { name: /삭제/ }))
     expect(onDelete).toHaveBeenCalledWith('1')
   })
 

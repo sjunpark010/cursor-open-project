@@ -1,6 +1,6 @@
 .item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   background: var(--color-surface);
@@ -9,9 +9,8 @@
   transition: box-shadow var(--transition);
 }
 
-.item:hover {
-  box-shadow: var(--shadow);
-}
+.item:hover { box-shadow: var(--shadow); }
+.completedItem { opacity: 0.65; }
 
 .checkbox {
   width: 1.125rem;
@@ -19,13 +18,21 @@
   flex-shrink: 0;
   cursor: pointer;
   accent-color: var(--color-primary);
+  margin-top: 2px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .title {
-  flex: 1;
-  font-size: 0.9375rem;
+  font-size: 0.9rem;
   color: var(--color-text);
-  transition: color var(--transition);
+  word-break: break-word;
 }
 
 .title.done {
@@ -33,29 +40,49 @@
   color: var(--color-text-muted);
 }
 
-.badge {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  padding: 0.125rem 0.5rem;
-  border-radius: 999px;
-  text-transform: capitalize;
+.meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.assignee, .dueDate {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
   flex-shrink: 0;
 }
 
-.badge.low {
-  color: var(--priority-low);
-  background: var(--priority-low-bg);
+.badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.badge.medium {
-  color: var(--priority-medium);
-  background: var(--priority-medium-bg);
+.badge.minor    { color: #16a34a; background: #dcfce7; }
+.badge.major    { color: #d97706; background: #fef3c7; }
+.badge.critical { color: #dc2626; background: #fee2e2; }
+
+.dday {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
 }
 
-.badge.high {
-  color: var(--priority-high);
-  background: var(--priority-high-bg);
-}
+.dday.overdue { background: #fee2e2; color: #dc2626; }
+.dday.dday0   { background: #fef3c7; color: #d97706; }
 
 .deleteBtn {
   background: none;
@@ -69,9 +96,8 @@
   transition: color var(--transition), background var(--transition);
 }
 
-.deleteBtn:hover,
-.deleteBtn:focus-visible {
-  color: var(--color-danger);
-  background: var(--priority-high-bg);
+.deleteBtn:hover {
+  color: #dc2626;
+  background: #fee2e2;
   outline: none;
 }

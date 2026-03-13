@@ -3,7 +3,7 @@ import { Task, Priority, FilterStatus } from "../types/task"
 import { useLocalStorage } from "./useLocalStorage"
 
 type Action =
-  | { type: "ADD"; title: string; priority: Priority }
+  | { type: "ADD"; title: string; priority: Priority; dueDate?: string; assignee?: string }
   | { type: "TOGGLE"; id: string }
   | { type: "DELETE"; id: string }
   | { type: "LOAD"; tasks: Task[] }
@@ -19,6 +19,8 @@ function reducer(state: Task[], action: Action): Task[] {
           priority: action.priority,
           completed: false,
           createdAt: Date.now(),
+          dueDate: action.dueDate,
+          assignee: action.assignee,
         },
       ]
     case "TOGGLE":
@@ -52,8 +54,8 @@ export function useTasks() {
     }
   }, [tasks, filter])
 
-  const addTask = (title: string, priority: Priority) =>
-    dispatch({ type: "ADD", title, priority })
+  const addTask = (title: string, priority: Priority, dueDate?: string, assignee?: string) =>
+    dispatch({ type: "ADD", title, priority, dueDate, assignee })
 
   const toggleTask = (id: string) => dispatch({ type: "TOGGLE", id })
 
