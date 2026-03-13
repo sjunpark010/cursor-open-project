@@ -261,7 +261,7 @@ tr:last-child td{border-bottom:none}
   <div class="sb-item" onclick="nav('ai-req')" id="n-ai-req">AI 요구사항 분석</div>
   <div class="sb-sec">테스트케이스</div>
   <div class="sb-item" onclick="nav('tc')" id="n-tc">Test Case</div>
-  <div class="sb-item" onclick="nav('smart-tc')" id="n-smart-tc">스마트 TC 생성</div>
+  <div class="sb-item" onclick="nav('smart-tc')" id="n-smart-tc">Smart TC Generator</div>
 
   <div class="sb-sec">결함</div>
   <div class="sb-item" onclick="nav('def')" id="n-def">결함 목록</div>
@@ -445,11 +445,11 @@ tr:last-child td{border-bottom:none}
       <div id="suite-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:4px 2px"></div>
     </div>
 
-    <!-- 스마트 TC 생성 -->
+    <!-- Smart TC Generator -->
     <div class="page" id="p-smart-tc">
       <div class="drow">
         <div class="dbox" style="flex:1;max-width:440px">
-          <div class="dbox-title"><h3>✨ 스마트 TC 생성</h3></div>
+          <div class="dbox-title"><h3>✨ Smart TC Generator</h3></div>
           <div style="display:flex;flex-direction:column;gap:12px">
             <div>
               <label style="font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:6px">대상 요구사항</label>
@@ -745,7 +745,7 @@ function populateAreaSelects() {
   });
 }
 
-const pageMap = {dash:'📊 대시보드', req:'📋 요구사항 관리', 'ai-req':'🤖 AI 요구사항 분석', tc:'📝 Test Case', 'smart-tc':'✨ 스마트 TC 생성', def:'🐛 결함 목록', 'def-stat':'📊 결함 통계', rtm:'🔗 RTM', cfg:'⚙️ 환경 설정'};
+const pageMap = {dash:'📊 대시보드', req:'📋 요구사항 관리', 'ai-req':'🤖 AI 요구사항 분석', tc:'📝 Test Case', 'smart-tc':'✨ Smart TC Generator', def:'🐛 결함 목록', 'def-stat':'📊 결함 통계', rtm:'🔗 RTM', cfg:'⚙️ 환경 설정'};
 const pageCnt = {req:()=>`${data.req.length}건`, tc:()=>`${data.tc.length}건`, def:()=>`${data.def.length}건`};
 
 let selectedReqId = null;
@@ -1525,7 +1525,7 @@ function delSuite(id) {
 }
 
 /* ══════════════════════════════════════════
-   스마트 TC 생성
+   Smart TC Generator
 ══════════════════════════════════════════ */
 function renderSmartTc() {
   const sel = document.getElementById('smartTcReqSel');
